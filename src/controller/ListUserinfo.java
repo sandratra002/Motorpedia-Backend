@@ -3,7 +3,7 @@ package controller;
 import java.io.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
-import model.Userinfo;
+import model.UserInfo;
 
 public class ListUserinfo extends HttpServlet {
 
@@ -11,9 +11,9 @@ public class ListUserinfo extends HttpServlet {
         try {
             if (request.getParameter("mode") != null && request.getParameter("mode").equals("d")) {
                 String id = request.getParameter("id");
-                Userinfo.deleteUserinfoById(id);
+                UserInfo.deleteUserinfoById(id);
             }
-            request.setAttribute("userinfos", Userinfo.readUserinfo());
+            request.setAttribute("userinfos", UserInfo.readUserinfo());
             request.getRequestDispatcher("list-userinfo.jsp").forward(request, response);
         } catch (Exception err) {
             err.printStackTrace(response.getWriter());

@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import database.SQLConnection;
 
 public class Authentication {
-    public static Userinfo login(String email, String password) throws Exception {
+    public static UserInfo login(String email, String password) throws Exception {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Userinfo userinfo = null;
+        UserInfo userinfo = null;
         try {
             connection = SQLConnection.getConnection();
             connection.setAutoCommit(false);
@@ -21,7 +21,7 @@ public class Authentication {
             statement.setString(2, password);
             set = statement.executeQuery();
             if (set.next()) {
-                userinfo = new Userinfo(
+                userinfo = new UserInfo(
                         set.getString("id"),
                         set.getString("name"),
                         set.getString("first_name"),
@@ -44,7 +44,7 @@ public class Authentication {
         return userinfo;
     }
 
-    public static Userinfo signup(String name, String firstName, String email, String password, String confirmPassword)
+    public static UserInfo signup(String name, String firstName, String email, String password, String confirmPassword)
             throws Exception {
         if (!password.equals(confirmPassword))
             throw new Exception("Two password must be the same");
@@ -52,8 +52,8 @@ public class Authentication {
             throw new Exception("Invalid email");
         if ("".equals(name) || "".equals(firstName))
             throw new Exception("Invalid name or firstName");
-        String id = Userinfo.createUserinfo(name, firstName, email, password);
-        return Userinfo.readUserinfoById(id);
+        String id = UserInfo.createUserinfo(name, firstName, email, password);
+        return UserInfo.readUserinfoById(id);
     }
 
     public static boolean isValidEmail(String email) {

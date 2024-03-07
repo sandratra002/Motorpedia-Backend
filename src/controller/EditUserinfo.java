@@ -3,7 +3,7 @@ package controller;
 import java.io.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
-import model.Userinfo;
+import model.UserInfo;
 
 public class EditUserinfo extends HttpServlet {
 
@@ -11,7 +11,7 @@ public class EditUserinfo extends HttpServlet {
         try {
             if (request.getParameter("mode") != null && request.getParameter("mode").equals("u")) {
                 String id = request.getParameter("id");
-                request.setAttribute("userinfo", Userinfo.readUserinfoById(id));
+                request.setAttribute("userinfo", UserInfo.readUserinfoById(id));
             }
             request.getRequestDispatcher("edit-userinfo.jsp").forward(request, response);
         } catch (Exception err) {
@@ -30,9 +30,9 @@ public class EditUserinfo extends HttpServlet {
                 url = url + "?mode=u";
                 String id = request.getParameter("id");
                 url = url + "&id=" + id;
-                Userinfo.updateUserinfoById(name, firstName, email, password, id);
+                UserInfo.updateUserinfoById(name, firstName, email, password, id);
             } else {
-                Userinfo.createUserinfo(name, firstName, email, password);
+                UserInfo.createUserinfo(name, firstName, email, password);
             }
             response.sendRedirect(url);
         } catch (Exception err) {

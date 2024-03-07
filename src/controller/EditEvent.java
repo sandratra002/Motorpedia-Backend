@@ -10,7 +10,7 @@ public class EditEvent extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("options-1", Brand.readBrand());
+            request.setAttribute("brands", Brand.readBrand());
             if (request.getParameter("mode") != null && request.getParameter("mode").equals("u")) {
                 String id = request.getParameter("id");
                 request.setAttribute("event", Event.readEventById(id));

@@ -10,26 +10,74 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.*;
 import model.Brand;
 import model.Car;
+import model.Category;
+import model.EngineType;
+import model.TransmissionType;
 import util.StringParser;
 
 @MultipartConfig
 public class ListCar extends HttpServlet {
 
+    private static HashMap<String , Object> getHashMap() throws Exception{
+        HashMap<String, Object> searchHashMap = new HashMap<String, Object>();
+        searchHashMap.put("name", "");
+        searchHashMap.put("year", "");
+        searchHashMap.put("transmission-type", "");
+        searchHashMap.put("", "");
+        searchHashMap.put("engine-type", "");
+        searchHashMap.put("category", "");
+        searchHashMap.put("max-price", "");
+        searchHashMap.put("min-price", "");
+        searchHashMap.put("brand", "");
+        searchHashMap.put("seating-capacity", "");
+        return searchHashMap;
+    }
+
+    private static HashMap<String, Object> search(HttpServletRequest request)  throws Exception{
+        HashMap<String, Object> searchHashMap = new HashMap<String, Object>();
+        searchHashMap.put("name", request.getParameter("name"));
+        searchHashMap.put("year", request.getParameter("year"));
+        searchHashMap.put("transmission-type", request.getParameter("transmission-type"));
+        searchHashMap.put("engine-type", request.getParameter("engine-type"));
+        searchHashMap.put("category", request.getParameter("category"));
+        searchHashMap.put("max-price", request.getParameter("max-price"));
+        searchHashMap.put("min-price", request.getParameter("min-price"));
+        searchHashMap.put("brand", request.getParameter("brand"));
+        searchHashMap.put("seating-capacity", request.getParameter("seating-capacity"));
+        ArrayList<Car> cars= Car.search(searchHashMap);
+
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        result.put("cars", cars);
+        result.put("search-map", searchHashMap);
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "./pages/index.jsp?page=list-car";
         try {
+            ArrayList<Car> cars = Car.readCar();
+            HashMap <String, Object> searHashMap = getHashMap();
             if (request.getParameter("mode") != null && request.getParameter("mode").equals("d")) {
                 String id = request.getParameter("id");
                 Car.deleteCarById(id);
                 url += "&scroll=1#main-content";
+            }else if(request.getParameter("mode") != null && request.getParameter("mode").equals("s")){
+                HashMap<String, Object> result = search(request);
+                cars = (ArrayList<Car>)result.get("cars");
+                searHashMap = (HashMap<String, Object>)result.get("search-map");
             }
-            ArrayList<Car> cars = Car.readCar();
             HashMap<String, HashMap<String, String>> infos = new HashMap<String, HashMap<String, String>>();
             for (Car car : cars) {
                 infos.put(car.getId(), Car.getCarInfo(car.getId()));
             }
             request.setAttribute("infos", infos);
             request.setAttribute("cars", cars);
+            request.setAttribute("engine-type", EngineType.readEngineType());
+            request.setAttribute("transmission-type", TransmissionType.readTransmissionType());
+            request.setAttribute("category", Category.readCategory());
+            request.setAttribute("brand", Brand.readBrand());
+            request.setAttribute("search-map", searHashMap);
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception err) {
             err.printStackTrace(response.getWriter());

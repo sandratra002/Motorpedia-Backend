@@ -10,11 +10,11 @@ public class Main {
         try {
             HashMap<String, Object> search = new HashMap<String, Object>();
             search.put("name", "");
-            search.put("min-price", "");
-            search.put("max-price", 45000.0);
-            search.put("year", 2024);
-            search.put("seating-capacity", "");
-            search.put("category", "CAT0001");
+            // search.put("min-price", "");
+            search.put("max-price", "");
+            search.put("year", null);
+            // search.put("seating-capacity", "");
+            // search.put("category", "CAT0001");
             ArrayList<Car> cars = Car.search(search);
             System.out.println(cars.size());
         } catch (Exception e) {

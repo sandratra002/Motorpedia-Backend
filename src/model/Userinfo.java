@@ -4,8 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import database.SQLConnection;
+import jakarta.servlet.http.HttpSession;
 
-public class Userinfo {
+public class UserInfo {
     String id;
     String name;
     String firstName;
@@ -13,10 +14,10 @@ public class Userinfo {
     String password;
 
     // Constructors
-    public Userinfo() {
+    public UserInfo() {
     }
 
-    public Userinfo(String id, String name, String firstName, String email, String password) {
+    public UserInfo(String id, String name, String firstName, String email, String password) {
         setId(id);
         setName(name);
         setFirstName(firstName);
@@ -60,18 +61,18 @@ public class Userinfo {
         return result;
     }
 
-    public static ArrayList<Userinfo> readUserinfo() throws Exception {
+    public static ArrayList<UserInfo> readUserinfo() throws Exception {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        ArrayList<Userinfo> userinfos = new ArrayList<>();
+        ArrayList<UserInfo> userinfos = new ArrayList<>();
         try {
             connection = SQLConnection.getConnection();
             connection.setAutoCommit(false);
             statement = connection.prepareStatement("SELECT * FROM userinfo");
             set = statement.executeQuery();
             while (set.next()) {
-                Userinfo userinfo = new Userinfo(set.getString("id"), set.getString("name"),
+                UserInfo userinfo = new UserInfo(set.getString("id"), set.getString("name"),
                         set.getString("first_name"), set.getString("email"), set.getString("password"));
                 userinfos.add(userinfo);
             }
@@ -91,11 +92,11 @@ public class Userinfo {
         return userinfos;
     }
 
-    public static Userinfo readUserinfoById(String id) throws Exception {
+    public static UserInfo readUserinfoById(String id) throws Exception {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Userinfo userinfo = null;
+        UserInfo userinfo = null;
         try {
             connection = SQLConnection.getConnection();
             connection.setAutoCommit(false);
@@ -103,7 +104,7 @@ public class Userinfo {
             statement.setString(1, id);
             set = statement.executeQuery();
             while (set.next()) {
-                userinfo = new Userinfo(set.getString("id"), set.getString("name"), set.getString("first_name"),
+                userinfo = new UserInfo(set.getString("id"), set.getString("name"), set.getString("first_name"),
                         set.getString("email"), set.getString("password"));
             }
         } catch (Exception err) {

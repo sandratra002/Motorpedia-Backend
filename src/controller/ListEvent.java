@@ -28,14 +28,15 @@ public class ListEvent extends HttpServlet {
             String brandId = request.getParameter("brand-id");
             String name = request.getParameter("name");
             String hashtag = request.getParameter("hashtag");
+            String description = request.getParameter("description");
             Date eventDate = Date.valueOf(request.getParameter("event-date"));
             if (request.getParameter("mode") != null && request.getParameter("mode").equals("u")) {
                 url = url + "?mode=u";
                 String id = request.getParameter("id");
                 url = url + "&id=" + id;
-                Event.updateEventById(brandId, name, hashtag, eventDate, id);
+                Event.updateEventById(brandId, name, hashtag, eventDate, description,id);
             } else {
-                Event.createEvent(brandId, name, hashtag, eventDate);
+                Event.createEvent(brandId, name, hashtag, eventDate, description);
             }
             response.sendRedirect(url);
         } catch (Exception err) {

@@ -50,19 +50,19 @@ public class Car {
         if (search.get("transmission-type") != null && !"".equals(search.get("transmission-type")))
             query += " AND transmission_type_id = \'" + ((String) search.get("transmission-type")) + "\' ";
         if (search.get("engine-type") != null && !"".equals(search.get("engine-type")))
-            query += " AND engine-type_type_id = \'" + ((String) search.get("engine-type")) + "\' ";
+            query += " AND engine_type_id = \'" + ((String) search.get("engine-type")) + "\' ";
         if (search.get("category") != null && !"".equals(search.get("category")))
             query += " AND category_id = \'" + ((String) search.get("category")) + "\' ";
-        if (search.get("max-price") != null && !"".equals(search.get("max-price")) && (double) search.get("max-price") > 0)
-            query += " AND price <= " + ((double) search.get("max-price")) + " ";
-        if (search.get("min-price") != null && !"".equals(search.get("min-price")) && (double) search.get("min-price") >= 0)
-            query += " AND price >= " + ((double) search.get("min-price")) + " ";
-        if (search.get("year") != null && !"".equals(search.get("year-price")) && (int) search.get("year") > 0)
-            query += " AND year = " + ((int) search.get("year")) + " ";
+        if (search.get("max-price") != null && !"".equals(search.get("max-price")) && !((String)search.get("max-price")).isEmpty())
+            query += " AND price <= " + ((String) search.get("max-price")) + " ";
+        if (search.get("min-price") != null && !"".equals(search.get("min-price")) && !((String)search.get("min-price")).isEmpty())
+            query += " AND price >= " + ((String) search.get("min-price")) + " ";
+        if (search.get("year") != null && !"".equals(search.get("year")) && !((String)search.get("year")).isEmpty())
+            query += " AND year = " + (search.get("year")) + " ";
         if (search.get("brand") != null && !"".equals(search.get("brand")))
             query += " AND brand_id = \'" + ((String) search.get("brand")) + "\' ";
         if (search.get("seating-capacity") != null && !"".equals(search.get("seating-capacity")))
-            query += " AND seating_capacity = " + ((int) search.get("seating-capacity")) + " ";
+            query += " AND seating_capacity = " + ((String) search.get("seating-capacity")) + " ";
         return query;
     }
 
