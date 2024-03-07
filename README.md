@@ -9,6 +9,6 @@ The workspace contains two folders by default, where:
 
 ##Project
 
-## Technologie
+## Technologies
 - Java : Main language used in this project
 - PostgreSQL : Database used
